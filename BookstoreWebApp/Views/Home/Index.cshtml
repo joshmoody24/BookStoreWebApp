@@ -5,17 +5,17 @@
 @model BooksViewModel
 
 <div>
-    <h1>Welcome to Amazoff Bookstore</h1>
-    <h2>The smallest online bookstore&trade;</h2>
+    <h1 class="display-4">Amazoff Bookstore</h1>
+    <h2 class="font-weight-light">The smallest online bookstore&trade;</h2>
     <p>We provide the world's smallest collection of books, delivered right to your doorstep.</p>
-    <h1>Browse Our Collection</h1>
+    <h2 class="font-weight-light">Browse our collection:</h2>
     @foreach (Book b in Model.Books)
     {
 <div class="card card-outline-primary m-1 p-1">
     <div class="bg-faded p-1">
         <h4>
             @b.Title
-            <span class="badge badge-pill badge-primary" style="float:right">
+            <span class="badge badge-pill badge-success" style="float:right">
                 <small>@b.Price.ToString("c")</small>
             </span>
         </h4>
