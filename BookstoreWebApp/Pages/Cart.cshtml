@@ -1,0 +1,39 @@
+﻿@page
+@model BookstoreWebApp.Pages.CartPageModel
+@{
+}
+
+<h2>Your cart</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var item in Model.Cart.Items){
+            <tr>
+                <td>@item.Book.Title</td>
+                <td>@item.Quantity</td>
+                <td>$@item.Book.Price</td>
+                <td>$@(item.Book.Price * item.Quantity)</td>
+            </tr>
+        }
+    </tbody>
+    
+    <tfoot>
+        <tr>
+            <td colspan="3">Total:</td>
+            <td>$@Model.Cart.CalculateTotal().ToString()</td>
+        </tr>
+    </tfoot>
+</table>
+
+<div>
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue Shopping</a>
+</div>
