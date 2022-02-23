@@ -20,19 +20,21 @@ namespace BookstoreWebApp.Controllers
             repo = temp;
         }
 
-        public IActionResult Index(int pageNum = 1)
+        public IActionResult Index(string? category, int pageNum = 1)
         {
+            ViewBag.SelectedCategory = category;
             const int RESULTS_PER_PAGE = 5;
             var books = new BooksViewModel
             {
                 Books = repo.Books
+                .Where(b => b.Category == category || category == null)
                 .OrderBy(b => b.Title)
                 .Skip(RESULTS_PER_PAGE * (pageNum - 1))
                 .Take(RESULTS_PER_PAGE),
 
                 PageInfo = new PageInfo
                 {
-                    TotalBooks = repo.Books.Count(),
+                    TotalBooks = repo.Books.Where(b => b.Category == category || category == null).Count(),
                     ResultsPerPage = RESULTS_PER_PAGE,
                     CurrentPage = pageNum
                 }
