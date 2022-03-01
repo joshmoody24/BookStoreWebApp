@@ -13,9 +13,10 @@ namespace BookstoreWebApp.Pages
     {
         private IBookstoreRepository repo;
 
-        public CartPageModel(IBookstoreRepository temp)
+        public CartPageModel(IBookstoreRepository temp, Cart c)
         {
             repo = temp;
+            Cart = c;
         }
 
         public Cart Cart { get; set; }
@@ -24,17 +25,20 @@ namespace BookstoreWebApp.Pages
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
 
         public IActionResult OnPost(int bookId, string returnUrl)
         {
             Book b = repo.Books.FirstOrDefault(b => b.BookId == bookId);
-            // null coalescing operator
-            Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
+
             Cart.AddItem(b, 1);
 
-            HttpContext.Session.SetJson("cart", Cart);
+            return RedirectToPage(new { ReturnUrl = returnUrl });
+        }
+
+        public IActionResult OnPostRemove(int projectId, string returnUrl)
+        {
+            Cart.RemoveItem(Cart.Items.First(x => x.Book.BookId == projectId).Book);
             return RedirectToPage(new { ReturnUrl = returnUrl });
         }
     }
