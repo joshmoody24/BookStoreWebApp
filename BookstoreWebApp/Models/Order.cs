@@ -37,5 +37,8 @@ namespace BookstoreWebApp.Models
         public string Country { get; set; }
 
         public bool Anonymous { get; set; }
+
+        [BindNever]
+        public bool Shipped { get; set; }
     }
 }
