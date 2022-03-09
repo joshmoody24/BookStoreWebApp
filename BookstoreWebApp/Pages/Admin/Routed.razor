@@ -1,20 +1,5 @@
 ﻿<Router AppAssembly="typeof(Startup).Assembly">
     <Found>
-        <style>
-            .breadcrumb-item {
-                text-transform: capitalize;
-            }
-        </style>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                @for (int i = 0; i < GetRouteSegments().Count(); i++)
-                {
-                    <li class="breadcrumb-item @(i==GetRouteSegments().Count ? "active" : "")">
-                        @GetRouteSegments()[i]
-                    </li>
-                }
-            </ol>
-        </nav>
         <RouteView RouteData="@context" DefaultLayout="typeof(AdminLayout)"></RouteView>
     </Found>
 
@@ -23,16 +8,3 @@
     </NotFound>
 
 </Router>
-
-@code {
-    [Inject]
-    public NavigationManager NavManager { get; set; }
-
-    public List<string> GetRouteSegments()
-    {
-        string route = NavManager.Uri.Substring(NavManager.BaseUri.Length, NavManager.Uri.Length - NavManager.BaseUri.Length);
-        List<string> routeComponents = route.Split('/').ToList<string>();
-        routeComponents.Insert(0, "Home");
-        return routeComponents;
-    }
-}
