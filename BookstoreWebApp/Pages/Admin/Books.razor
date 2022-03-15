@@ -2,7 +2,7 @@
 @page "/admin"
 @inherits OwningComponentBase<IBookstoreRepository>
 
-<table class="table table-sm table-striped table-bordered">
+<table class="table table-sm table-borderless table-hover">
     <thead>
         <tr>
             <th>Book ID</th>
@@ -23,15 +23,11 @@
                     <td>@b.Price</td>
 
                     <td>
-                        <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
-                    </td>
-
-                    <td>
-                        <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
-                    </td>
-
-                    <td>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" @onclick="@(x => SetBookToDelete(b))">Delete</button>
+                        <div class="btn-group" role="group">
+                            <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
+                            <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
+                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" @onclick="@(x => SetBookToDelete(b))">Delete</button>
+                        </div>
                     </td>
                 </tr>
             }
