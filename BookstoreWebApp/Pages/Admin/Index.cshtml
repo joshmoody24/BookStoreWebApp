@@ -1,7 +1,9 @@
 ﻿@page "/admin"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @model BookstoreWebApp.Pages.Admin.IndexModel
-@{
-}
 
 <!DOCTYPE html>
 <html lang="en">
