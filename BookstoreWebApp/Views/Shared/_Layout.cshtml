@@ -3,39 +3,59 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Amazoff</title>
+    <title>@ViewData["Title"] - BookstoreApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Amazoff</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bookstore</a>
+                <vc:cart-summary />
                 <!--
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                </div>
-                -->
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
+            </div>
+            -->
             </div>
         </nav>
+
+
+
+
     </header>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </div>
-        </div>
+        <main role="main" class="pb-3">
+            <style>
+                .breadcrumb-item {
+                    text-transform: capitalize;
+                }
+            </style>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    @{
+                        string route = Context.Request.Path;//NavManager.Uri.Substring(NavManager.BaseUri.Length, NavManager.Uri.Length - NavManager.BaseUri.Length);
+                        List<string> routeComponents = route.Split('/').ToList<string>();
+                        // the first entry in the list is blank. Overwrite it.
+                        routeComponents[0] = "Home";
+                        for (int i = 0; i < routeComponents.Count; i++)
+                        {
+                            <li class="breadcrumb-item @(i == routeComponents.Count ? "active" : "")">
+                                @routeComponents[i]
+                            </li>
+                        }
+                    }
+                </ol>
+            </nav>
+            @RenderBody()
+        </main>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

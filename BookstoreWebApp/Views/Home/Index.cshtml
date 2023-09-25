@@ -4,35 +4,30 @@
 
 @model BooksViewModel
 
-<div>
-    <h1 class="display-4">Amazoff Bookstore</h1>
-    <h2 class="font-weight-light">The smallest online bookstore&trade;</h2>
-    <p>We provide the world's smallest collection of books, delivered right to your doorstep.</p>
-    <h2 class="font-weight-light">Browse our collection:</h2>
-    @foreach (Book b in Model.Books)
-    {
-<div class="card card-outline-primary m-1 p-1">
-    <div class="bg-faded p-1">
-        <h4>
-            @b.Title
-            <span class="badge badge-pill badge-success" style="float:right">
-                <small>@b.Price.ToString("c")</small>
-            </span>
-        </h4>
+<div class="row">
+    <div class="col-3">
+        <vc:book-categories></vc:book-categories>
     </div>
-    <div class="card-text p-1">By @b.Author</div>
-    <div class="card-text p-1">@b.Classification/@b.Category, @b.PageCount pages</div>
-    <div class="card-text p-1">ISBN: @b.Isbn</div>
+    <div class="col-9">
+        <main role="main" class="pb-3">
+            <div>
+                <h1 class="display-4">Bookstore</h1>
+                <h2 class="font-weight-light">The smallest online bookstore&trade;</h2>
+                <p>We provide the world's smallest collection of books, delivered right to your doorstep.</p>
+                <h2 class="font-weight-light">Browse our collection:</h2>
+                @foreach (Book b in Model.Books)
+                {
+                    <partial name="BookSummary" model="b" />
+                }
 
-</div>
-    }
-
-    <div
-         page-info="@Model.PageInfo"
-         page-action="Index"
-         page-classes-enabled="true"
-         page-class="btn"
-         page-class-normal="btn-outline-dark"
-         page-class-selected="btn-primary"
-         class="btn-group pull-right m-1"></div>
-</div>
+                <div page-info="@Model.PageInfo"
+                     page-action="Index"
+                     page-classes-enabled="true"
+                     page-class="btn"
+                     page-class-normal="btn-outline-dark"
+                     page-class-selected="btn-primary"
+                     class="btn-group pull-right m-1"></div>
+            </div>
+        </main>
+    </div>
+ </div>

@@ -20,6 +20,7 @@ namespace BookstoreWebApp.Models
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,9 +40,7 @@ namespace BookstoreWebApp.Models
                 entity.HasIndex(e => e.BookId)
                     .IsUnique();
 
-                entity.Property(e => e.BookId)
-                    .HasColumnName("BookID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.BookId);
 
                 entity.Property(e => e.Author).IsRequired();
 

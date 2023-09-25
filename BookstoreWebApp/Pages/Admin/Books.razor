@@ -1,0 +1,95 @@
+﻿@page "/admin/books"
+@page "/admin"
+@inherits OwningComponentBase<IBookstoreRepository>
+
+<table class="table table-sm table-borderless table-hover">
+    <thead>
+        <tr>
+            <th>Book ID</th>
+            <th>Book Title</th>
+            <th>Book Price</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (BookData?.Count() > 0)
+        {
+            // List books
+            @foreach (Book b in BookData)
+            {
+                <tr>
+                    <td>@b.BookId</td>
+                    <td>@b.Title</td>
+                    <td>@b.Price</td>
+
+                    <td>
+                        <div class="btn-group" role="group">
+                            <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
+                            <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
+                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" @onclick="@(x => SetBookToDelete(b))">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Books</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this book?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You are about to delete the book titled "@BookToDelete?.Title." Are you sure you want to do this?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@(x => SetBookToDelete(null))">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="@(x => RemoveBook(BookToDelete))">Permanently Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<NavLink class="btn btn-primary" href="/admin/books/create">Create</NavLink>
+
+@code {
+    public IBookstoreRepository repo => Service;
+    public IEnumerable<Book> BookData { get; set; }
+    public Book? BookToDelete { get; set; } = null;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+
+    public async Task UpdateData()
+    {
+        BookData = await repo.Books.ToListAsync();
+    }
+
+    public string GetDetailsUrl(long id) => $"/admin/books/details/{id}";
+    public string GetEditUrl(long id) => $"/admin/books/edit/{id}";
+
+    public void SetBookToDelete(Book b)
+    {
+        BookToDelete = b;
+    }
+
+    public async Task RemoveBook(Book b)
+    {
+        repo.DeleteProject(b);
+        await UpdateData();
+    }
+}
